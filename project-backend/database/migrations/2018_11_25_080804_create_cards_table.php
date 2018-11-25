@@ -20,8 +20,9 @@ class CreateCardsTable extends Migration
             $table->string('card_list_id');
             $table->string('title');
             $table->text('description');
-            $table->json('labels');
-            $table->json('members');
+            $table->int('sort_order');
+            $table->string('labels');
+            $table->string('members');
         });
     }
 
