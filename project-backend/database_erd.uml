@@ -3,15 +3,16 @@
   <ID>DATABASE</ID>
   <OriginalElement>30306261-a6dc-40d0-b6fd-1b4b7040b0bb.SCHEMA:csci380_project</OriginalElement>
   <nodes>
-    <node x="-62.0" y="314.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.comments</node>
-    <node x="351.0" y="-2.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.card_lists</node>
-    <node x="-20.0" y="-26.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.cards</node>
-    <node x="256.0" y="446.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.users</node>
-    <node x="560.0" y="275.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.migrations</node>
+    <node x="496.8011472275334" y="71.79349904397705">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.comments</node>
+    <node x="-85.46845124282987" y="40.52581261950285">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.card_lists</node>
+    <node x="-78.63097514340345" y="290.5927342256214">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.cards</node>
+    <node x="479.8240917782026" y="516.869980879541">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.users</node>
+    <node x="-102.5621414913958" y="583.7017208413001">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.migrations</node>
+    <node x="208.66539196940732" y="515.7304015296368">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.card_user</node>
   </nodes>
   <notes />
   <edges />
-  <settings layout="Hierarchic Group" zoom="1.0" x="302.5" y="280.0" />
+  <settings layout="Hierarchic Group" zoom="0.87751677852349" x="307.5" y="288.0" />
   <SelectedNodes />
   <Categories>
     <Category>Key columns</Category>
