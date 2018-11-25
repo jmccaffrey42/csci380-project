@@ -16,7 +16,6 @@ class CreateCardListsTable extends Migration
         Schema::create('card_lists', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->timestamps();
-            $table->string('user_id');
             $table->string('title');
             $table->integer('x');
             $table->integer('y');

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class BaseUuidModel extends Model
 {
     public $incrementing = false;
+    public $primaryKey = 'id';
 
     public static function boot()
     {

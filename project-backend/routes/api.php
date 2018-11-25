@@ -25,13 +25,16 @@ Route::get('/test', function () {
 });
 
 Route::get('lists', 'ListController@index');
-Route::get('lists/{id}', 'ListController@show');
 Route::post('lists', 'ListController@store');
 Route::put('lists/{id}', 'ListController@update');
 Route::delete('lists/{id}', 'ListController@delete');
 
-Route::get('cards', 'CardController@index');
 Route::get('cards/{id}', 'CardController@show');
 Route::post('cards', 'CardController@store');
 Route::put('cards/{id}', 'CardController@update');
 Route::delete('cards/{id}', 'CardController@delete');
+
+Route::post('comments', 'CommentController@store');
+Route::put('comments/{id}', 'CommentController@update');
+Route::delete('comments/{id}', 'CommentController@delete');
+
