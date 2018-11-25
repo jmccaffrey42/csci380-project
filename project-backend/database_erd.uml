@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>30306261-a6dc-40d0-b6fd-1b4b7040b0bb.SCHEMA:csci380_project</OriginalElement>
+  <nodes>
+    <node x="4.0" y="-24.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.cards</node>
+    <node x="-88.0" y="303.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.lists</node>
+    <node x="441.0" y="317.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.users</node>
+    <node x="79.0" y="506.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.migrations</node>
+    <node x="375.0" y="-1.0">30306261-a6dc-40d0-b6fd-1b4b7040b0bb.TABLE:csci380_project.comments</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="1.0" x="302.5" y="280.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+  </Categories>
+</Diagram>
+
