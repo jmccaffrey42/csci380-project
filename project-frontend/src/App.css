@@ -1,32 +1,106 @@
-.App {
-  text-align: center;
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.loginScreen {
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.dialogSmall {
+    height: 400px;
+    width: 400px;
 }
 
-.App-link {
-  color: #61dafb;
+.dialog {
+    padding: 1em;
+    border: 1px solid #727272;
+    border-radius: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dialog h1 {
+    margin: 0;
+    font-size: 20pt;
+}
+
+.dialog header {
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
+.inputGroup {
+    margin-bottom: 0.5em;
+}
+
+.formInput label {
+    display: block;
+    margin-bottom: .25em;
+}
+
+.formInput input[type="text"] {
+    border-radius: 3px;
+    background-color: #efefef;
+    padding: 0.5em;
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    border: 1px solid #d2d2d2;
+}
+
+.formInput {
+    margin-bottom: .5em;
+}
+
+.formButtons {
+    padding: 0 1em;
+    text-align: right;
+    margin-top: 0.5em;
+}
+
+.dialog footer {
+    position: absolute;
+    bottom: 1em;
+    right: 0;
+    left: 0;
+}
+
+.button {
+    min-width: 5em;
+    height: 35px;
+    font-size: 11pt;
+    border-radius: 3px;
+    color: white;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+}
+
+.button:hover {
+    border-color: #0293ff;
+    background-color: #0293ff;
+}
+
+.buttonGreen {
+    border-color: #28a745;
+    background-color: #28a745;
+}
+
+.buttonGreen:hover {
+    border-color: #2ebf4f;
+    background-color: #2EBF4F;
+}
+
+.error {
+    background: #ff8e8e;
+    padding: 0.5em;
+    color: white;
+    border-radius: 3px;
+    margin-bottom: 0.5em;
+}
+
+.buttonFullWidth {
+    box-sizing: border-box;
+    width: 100%;
 }
