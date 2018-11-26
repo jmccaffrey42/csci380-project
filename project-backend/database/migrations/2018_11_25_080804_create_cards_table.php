@@ -21,7 +21,7 @@ class CreateCardsTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('sort_order');
-            $table->string('labels');
+            $table->string('labels')->nullable();
         });
     }
 

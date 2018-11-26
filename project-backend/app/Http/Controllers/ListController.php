@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \App\CardList;
 
-class ListController extends Controller
+class ListController extends SecureController
 {
 
     public function index() {
@@ -13,7 +13,12 @@ class ListController extends Controller
     }
 
     public function store(Request $request) {
-        return CardList::create($request->all());
+        $request->validate([
+            'title' => 'required',
+            'x' => 'required|numeric',
+            'y' => 'required|numeric'
+        ]);
+        return CardList::create($request->only(['title', 'x', 'y']));
     }
 
     public function update(Request $request, $id) {
@@ -27,3 +32,4 @@ class ListController extends Controller
         return 204;
     }
 }
+

@@ -4,7 +4,7 @@ namespace App;
 
 class Card extends BaseUuidModel
 {
-    public $fillable = ['card_list_id', 'user_id', 'title', 'description', 'labels'];
+    public $fillable = ['card_list_id', 'user_id', 'title', 'description', 'labels', 'sort_order'];
 
     public function cardList() {
         return $this->belongsTo('App\CardList');

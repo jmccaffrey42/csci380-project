@@ -2,28 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\CardList;
 use Illuminate\Http\Request;
 use \App\Card;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
-class CardController extends Controller
+class CardController extends SecureController
 {
     public function show($id) {
-        $cards = Card::where(['id' => $id])->with('members')->with('user')->with('comments')->get();
-        if (empty($cards)) {
+        $card = Card::where(['id' => $id])->with('members')->with('user')->with('comments')->first();
+        if (empty($card)) {
             return 404;
         }
-        return $cards[0];
+        return $card;
     }
 
     public function store(Request $request) {
-        return Card::create($request->all());
+        $request->validate([
+            'card_list_id' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'sort_order' => 'required|numeric'
+        ]);
+
+        $cardReq = $request->only(['card_list_id', 'title', 'description', 'sort_order', 'labels']);
+        $cardReq['user_id'] = Auth::user()->id;
+
+        $list = CardList::find($cardReq['card_list_id']);
+        if (empty($list)) {
+            return 404;
+        }
+
+        return Card::create($cardReq);
     }
 
     public function update(Request $request, $id) {
-        $list = Card::findOrFail($id);
-        $list->update($request->all());
-        return $list;
+        $card = Card::findOrFail($id);
+        $card->update($request->only(['title', 'description', 'sort_order', 'labels']));
+        return $card;
     }
 
     public function delete(Request $request, $id) {

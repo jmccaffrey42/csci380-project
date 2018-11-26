@@ -38,3 +38,7 @@ Route::post('comments', 'CommentController@store');
 Route::put('comments/{id}', 'CommentController@update');
 Route::delete('comments/{id}', 'CommentController@delete');
 
+Route::get('users', 'UsersController@index');
+Route::get('users/{id}', 'UsersController@show');
+Route::post('users', 'UsersController@store');
+Route::put('users/{id}', 'UsersController@update');
