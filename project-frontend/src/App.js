@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {Router, Route, Link, Redirect} from "react-router-dom";
 import './App.css';
 import history from './history';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faHome, faSignOutAlt, faThLarge } from '@fortawesome/free-solid-svg-icons'
 
 class LoginScreen extends Component {
 
@@ -46,7 +48,7 @@ class LoginScreen extends Component {
 
                         <div className="inputGroup">
                             <div className="formInput">
-                                <label>Email Address:</label>
+                                <label>Email Address</label>
                                 <input type="text" placeholder="email address"/>
                             </div>
                             <div className="formInput">
@@ -71,7 +73,6 @@ class LoginScreen extends Component {
 
 const IndexScreen = () => <h2>Home</h2>;
 const RegisterScreen = () => <h2>Register</h2>;
-const BoardScreen = () => <h2>Board</h2>;
 
 const fakeAuth = {
     isAuthenticated: false,
@@ -93,18 +94,41 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     )} />
 );
 
+class BoardScreen extends Component {
+    render() {
+        return (
+            <div>
+                <header className="boardHeader">
+                    <span className="boardTitle">Task Board</span>
+                </header>
+            </div>
+        );
+    }
+}
+
 const App = () => (
     <Router history={history}>
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/board">Board</Link>
-                    </li>
-                </ul>
+            <nav className="topNav">
+                <div className="navLeft">
+                    <Link className="button buttonGray buttonIcon" to="/"><FontAwesomeIcon icon={faHome} /></Link>
+                    <Link className="button buttonGray buttonIcon" to="/board/"><FontAwesomeIcon icon={faThLarge} /></Link>
+                </div>
+
+                <div className="navCenter">
+
+                </div>
+                <Link className="navCenterLogo" to="/">
+                    <img src="/images/brand_logo.png" /> LionTracks
+                </Link>
+
+                <div className="navRight">
+                    Jonathan McCaffrey
+                    <span className="dot">JM</span>
+                    <button className="button buttonGray buttonIcon" onClick={ () => { fakeAuth.signout(() => { history.push('/') }) } }>
+                        <FontAwesomeIcon icon={faSignOutAlt} />
+                    </button>
+                </div>
             </nav>
 
             <Route path="/" exact component={IndexScreen} />

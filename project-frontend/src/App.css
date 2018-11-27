@@ -68,6 +68,7 @@
 }
 
 .button {
+    display: inline-block;
     min-width: 5em;
     height: 35px;
     font-size: 11pt;
@@ -75,6 +76,8 @@
     color: white;
     border: 1px solid #007bff;
     background-color: #007bff;
+    line-height: 35px;
+    cursor: pointer;
 }
 
 .button:hover {
@@ -92,6 +95,27 @@
     background-color: #2EBF4F;
 }
 
+.buttonGray {
+    color: black;
+    border-color: #b7b7b7;
+    background-color: #b7b7b7;
+}
+
+.buttonGray:hover {
+    border-color: #d4d4d4;
+    background-color: #d4d4d4;
+}
+
+.buttonIcon {
+    min-width: 0;
+    padding: 0 0.5em;
+    font-size: 22px;
+}
+
+.buttonGray.buttonIcon {
+    color: white;
+}
+
 .error {
     background: #ff8e8e;
     padding: 0.5em;
@@ -103,4 +127,100 @@
 .buttonFullWidth {
     box-sizing: border-box;
     width: 100%;
+}
+
+.topNav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    background-color: #061f5c;
+    height: 50px;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+
+    display: flex;
+    flex-direction:row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0 0.5em;
+}
+
+.navCenter {
+    margin: auto
+}
+
+.topNav button, .topNav a {
+    margin-right: 0.25em;
+}
+
+.navRight button {
+    margin-right: 0;
+    margin-left: 0.25em;
+}
+
+.topNav a {
+    color: white;
+    text-decoration: none;
+}
+
+.navCenterLogo {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    align-items: center;
+    font-size: 16pt;
+}
+
+.navCenterLogo img {
+    height: 40px;
+    margin-right: 0.25em;
+}
+.navLeft {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.navRight {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.dot {
+    height: 35px;
+    line-height: 35px;
+    width: 35px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    color: black;
+}
+
+.topNav .dot {
+    margin-left: 0.25em;
+}
+
+.well {
+    display: inline-block;
+    min-width: 5em;
+    height: 35px;
+    border-radius: 3px;
+    color: white;
+    border: 1px solid #b7b7b7;
+    background-color: #b7b7b7;
+    line-height: 35px;
+    padding: 0 0.25em;
+}
+
+#root {
+    padding-top: 50px;
 }
