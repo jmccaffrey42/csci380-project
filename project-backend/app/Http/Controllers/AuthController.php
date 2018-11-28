@@ -12,7 +12,8 @@ class AuthController extends Controller
             'email' => 'required'
         ]);
         $user = User::where(['email' => $request['email']])->first();
-        return ['token' => $user->id];
+        $user['token'] = $user->id;
+        return $user;
     }
 
     public function register(Request $request)
