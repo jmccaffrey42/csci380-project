@@ -14,10 +14,10 @@ class CreateCardUserTable extends Migration
     public function up()
     {
         Schema::create('card_user', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('id', 64)->primary();
             $table->timestamps();
-            $table->string('card_id');
-            $table->string('user_id');
+            $table->string('card_id',64);
+            $table->string('user_id',64);
         });
     }
 

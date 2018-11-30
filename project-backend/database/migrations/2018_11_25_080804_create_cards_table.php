@@ -14,10 +14,10 @@ class CreateCardsTable extends Migration
     public function up()
     {
         Schema::create('cards', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('id', 64)->primary();
             $table->timestamps();
-            $table->string('user_id');
-            $table->string('card_list_id');
+            $table->string('user_id', 64);
+            $table->string('card_list_id', 64);
             $table->string('title');
             $table->text('description');
             $table->integer('sort_order');
