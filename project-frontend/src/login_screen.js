@@ -1,7 +1,9 @@
-import auth from "./auth";
 import history from "./history";
 import {Link} from "react-router-dom";
 import React, { Component } from "react";
+
+import ApiClient from './api_client';
+import authProvider from "./auth_provider";
 
 export default class LoginScreen extends Component {
 
@@ -11,14 +13,22 @@ export default class LoginScreen extends Component {
         this.state = {
             error: null
         }
+
+        this.myRef = React.createRef();
     }
 
     handleSubmit(e) {
         e.preventDefault();
 
-        auth.authenticate(() => {
-            history.push('/board');
-        });
+        ApiClient.post('/auth/login', { email: e.target.email.value })
+            .then((user) => {
+                authProvider.authenticate(user);
+                history.push('/board');
+            })
+            .catch((error) => {
+                console.error(error);
+                this.setState({error: error});
+            });
     }
 
     renderError() {
@@ -34,8 +44,8 @@ export default class LoginScreen extends Component {
 
     render() {
         return (
-            <div className="loginScreen">
-                <div className="dialog dialogSmall centered">
+            <div className="loginScreen" ref={this.myRef}>
+                <div className="dialog dialogSmall dialogCentered">
                     <header>
                         <h1>Login</h1>
                         or <Link to="/register">create an account</Link>
@@ -47,14 +57,13 @@ export default class LoginScreen extends Component {
                         <div className="inputGroup">
                             <div className="formInput">
                                 <label>Email Address</label>
-                                <input type="text" placeholder="email address"/>
+                                <input type="text" name="email" placeholder="email address"/>
                             </div>
                             <div className="formInput">
                                 <label>Password</label>
                                 <input type="text" placeholder="no password required" disabled="disabled" />
                             </div>
                         </div>
-
 
                         <footer>
                             <div className="formButtons">

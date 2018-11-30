@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Router, Route, Redirect} from "react-router-dom";
 
 import './App.css';
 import history from './history';
-import auth from './auth';
+import authProvider from "./auth_provider";
+
 
 import BoardScreen from './board_screen';
 import IndexScreen from './index_screen';
@@ -14,7 +15,7 @@ import TopNav from './top_nav';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
-        auth.isAuthenticated === true
+        authProvider.isAuthenticated === true
             ? <Component {...props} />
             : <Redirect to='/login' />
     )} />
