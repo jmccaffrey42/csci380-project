@@ -1,30 +1,31 @@
 import React, { Component } from "react";
-import history from './history';
-import authProvider from "./auth_provider";
 import {faEllipsisH, faPlus, faBars, faComments, faAddressCard} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Link} from "react-router-dom";
-import EditableText from './editable_text'
+import EditableText from './editable_text';
+import ApiClient from './api_client';
+
 
 class CardList extends Component {
+    onTitleChange(newTitle) {
+        ApiClient.put('/lists/' + this.props.cardList.id, {title: newTitle})
+            .catch((error) => {
+                console.log("error saving list", error);
+            });
+    }
+
     render() {
+        const { cardList, onCardClick } = this.props;
+        const {id, title, cards} = cardList;
+
         return (
             <div className="cardListBox">
                 <header>
-                    <span className="cardListTitle"><EditableText value="List!" multiline={false} onChange={function() {}} /></span>
+                    <span className="cardListTitle"><EditableText value={title} multiline={false} onChange={this.onTitleChange.bind(this)} /></span>
                     <button className="button buttonLight buttonIcon"><FontAwesomeIcon icon={faEllipsisH} /></button>
                 </header>
 
                 <ul>
-                    <li>This is a really nice card name</li>
-                    <li>The quick brown fox jumps over the lazy dog</li>
-                    <li>Lorem ipsum dolar sit amet ...</li>
-                    <li>This is a really nice card name</li>
-                    <li>The quick brown fox jumps over the lazy dog</li>
-                    <li>Lorem ipsum dolar sit amet ...</li>
-                    <li>This is a really nice card name</li>
-                    <li>The quick brown fox jumps over the lazy dog</li>
-                    <li>Lorem ipsum dolar sit amet ...</li>
+                    { cards.map((card) => ( <li onClick={() => onCardClick(card) } key={card.id}>{card.title}</li>)) }
                 </ul>
 
                 <footer>
@@ -40,16 +41,45 @@ export default class BoardScreen extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            showDialog: true
+            dialogCard: null,
+            cardLists: [],
+            loading: true
         }
     }
 
+    componentDidMount() {
+        ApiClient.get('/lists').then((lists) => {
+            console.log(lists);
+            this.setState({cardLists: lists, loading: false});
+        });
+    }
+
     onBgClick() {
-        this.setState({showDialog: false});
+        this.setState({dialogCard: null});
 
     }
+
+    onCardUpdate(field, newValue) {
+        let update = {};
+        update[field] = newValue;
+        ApiClient.put('/cards/' + this.state.dialogCard.id, update)
+            .then((updatedCard) => {
+
+                let newLists = this.state.cardLists.slice();
+                let cardList = newLists.find((l) => l.id === updatedCard.card_list_id);
+                const cardIdx = cardList.cards.findIndex((c) => c.id === updatedCard.id);
+                cardList.cards[cardIdx] = updatedCard;
+
+                this.setState({cardLists: newLists});
+            })
+            .catch((error) => {
+                console.log("error saving card", error);
+            });
+    }
+
     renderCardDetail() {
-        if (!this.state.showDialog) {
+        const {dialogCard} = this.state;
+        if (dialogCard === null) {
             return;
         }
 
@@ -59,12 +89,12 @@ export default class BoardScreen extends Component {
                 <div className="dialog centered">
                     <div className="dialogBody">
                         <header>
-                            <h1><FontAwesomeIcon className="icon" icon={faAddressCard} /><EditableText value="This is a really nice card name" multiline={false} onChange={function() {}} /></h1>
+                            <h1><FontAwesomeIcon className="icon" icon={faAddressCard} /><EditableText value={dialogCard.title} multiline={false} onChange={(val) => this.onCardUpdate('title', val) } /></h1>
                             in list <a href="">List Title</a>
                         </header>
                         <section>
                             <h2><FontAwesomeIcon className="icon" icon={faBars}/> Description</h2>
-                            <EditableText value="This is a really nice card name" multiline={true} onChange={function() {}} />
+                            <EditableText value="This is a really nice card name" multiline={true} onChange={(val) => this.onCardUpdate('description', val) } />
                         </section>
                         <section>
                             <h2><FontAwesomeIcon className="icon" icon={faComments} /> Comments</h2>
@@ -93,17 +123,19 @@ export default class BoardScreen extends Component {
     }
 
     render() {
+        const {cardLists} = this.state;
+
         return (
             <div className="boardScreen">
                 <header className="boardHeader">
                     <span className="boardTitle">Task Board</span>
                     <ul className="boardInfo">
                         <li>
-                            26 lists
+                            { cardLists.length } lists
                         </li>
 
                         <li>
-                            102 tasks
+                            { cardLists.reduce((sum, l) => sum + l.cards.length, 0) } tasks
                         </li>
 
                         <li className="boardMembers">
@@ -116,10 +148,7 @@ export default class BoardScreen extends Component {
                 </header>
 
                 <section className="mainBoard">
-                    <CardList />
-                    <CardList />
-                    <CardList />
-                    <CardList />
+                    { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) } />)) }
                 </section>
 
                 { this.renderCardDetail() }

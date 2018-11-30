@@ -12,7 +12,7 @@ export default class LoginScreen extends Component {
 
         this.state = {
             error: null
-        }
+        };
 
         this.myRef = React.createRef();
     }
@@ -26,8 +26,14 @@ export default class LoginScreen extends Component {
                 history.push('/board');
             })
             .catch((error) => {
-                console.error(error);
-                this.setState({error: error});
+                if (error.message !== undefined) {
+                    this.setState({error: error.message});
+                } else if (error.status === 404) {
+                    this.setState({error: "Email not found in database, please register and try again."});
+                } else {
+                    console.error(error);
+                    this.setState({error: "Unknown login error(" + error.status + ") please try again later"});
+                }
             });
     }
 

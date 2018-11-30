@@ -1,11 +1,13 @@
 import authProvider from './auth_provider';
 
 class ApiClient {
-    baseUrl = 'http://localhost:8000';
+    baseUrl = '/api';
 
     request(method, path, body) {
         let headers = {
             "Content-Type": "application/json; charset=utf-8",
+            "Accept": "application/json",
+            "Cache-Control": "no-cache"
         };
 
         if (authProvider.isAuthenticated) {
@@ -26,11 +28,11 @@ class ApiClient {
             fetch(baseUrl + path, req).then(response => {
                 if (response.status === 401) {
                     authProvider.signout();
-                    reject(response.json());
-                } else if (!response.ok) {
-                    reject(response.json());
+                }
+                if (!response.ok) {
+                    response.json().then(reject).catch(() => { reject(response) });
                 } else {
-                    return resolve(response.json());
+                    response.json().then((data) => { console.log("HERE", data); resolve(data); }).catch((error) => { console.error(error) });
                 }
             });
         });
@@ -49,7 +51,7 @@ class ApiClient {
     }
 
     put(path, object) {
-        return this.request('POST', path, object);
+        return this.request('PUT', path, object);
     }
 }
 
