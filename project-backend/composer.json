@@ -27,7 +27,7 @@
             "App\\": "app/"
         },
         "files": [
-            "App/Helpers/uuid.php"
+            "app/Helpers/uuid.php"
         ]
     },
     "autoload-dev": {
