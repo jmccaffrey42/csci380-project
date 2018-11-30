@@ -8,3 +8,4 @@ This project uses the following architecture
     * Talks to MySQL to store all records
 * A frontend app written in JS talks to the backend app over HTTP/REST
     * Using ReactJS 
+ 
