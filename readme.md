@@ -7,4 +7,4 @@ This project uses the following architecture
     * Uses Laravel framework to create a REST API
     * Talks to MySQL to store all records
 * A frontend app written in JS talks to the backend app over HTTP/REST
-    * Using ReactJS
+    * Using ReactJS and test
