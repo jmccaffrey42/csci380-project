@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import {faEllipsisH, faPlus, faBars, faComments, faAddressCard} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import EditableText from './editable_text';
 import ApiClient from './api_client';
-import authProvider from "./auth_provider";
-import history from "./history";
-
+import CardList from './card_list';
+import CardDetail from './card_detail';
 
 
 export default class BoardScreen extends Component {
@@ -40,6 +37,17 @@ export default class BoardScreen extends Component {
         this.setState({cardLists: newLists});
     }
 
+    onListChange(id, updatedList) {
+        let newLists = this.state.cardLists.slice();
+        if (updatedList !== undefined && updatedList !== null) {
+            let cardListIdx = newLists.findIndex((l) => l.id === id);
+            newLists[cardListIdx] = updatedList;
+        } else {
+            newLists = newLists.filter((l) => l.id !== id);
+        }
+        this.setState({cardLists: newLists});
+    }
+
     render() {
         const {cardLists, dialogCard} = this.state;
 
@@ -66,7 +74,7 @@ export default class BoardScreen extends Component {
                 </header>
 
                 <section className="mainBoard">
-                    { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) } />)) }
+                    { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) } onChange={(update) => this.onListChange(list.id, update)} />)) }
                 </section>
 
                 { (dialogCard === null ? [] : <CardDetail card={dialogCard} onChange={ this.onCardChange.bind(this) } onClose={ (card) => this.setState({dialogCard: null}) } />) }

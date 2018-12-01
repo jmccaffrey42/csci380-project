@@ -2,7 +2,7 @@ import ApiClient from "./api_client";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAddressCard, faBars, faComments} from "@fortawesome/free-solid-svg-icons";
 import EditableText from "./editable_text";
-import React from "react";
+import React, {Component} from "react";
 
 export default class CardDetail extends Component {
     constructor(props, context) {
