@@ -30,7 +30,7 @@ class ApiClient {
                     authProvider.signout();
                 }
                 if (!response.ok) {
-                    response.json().then(reject).catch(() => { reject(response) });
+                    response.json().then((err) => { err['status'] = response.status; reject(err) }).catch(() => { reject(response) });
                 } else {
                     response.json().then((data) => { resolve(data) }).catch((error) => { console.error(error) });
                 }

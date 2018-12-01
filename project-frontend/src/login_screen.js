@@ -26,9 +26,7 @@ export default class LoginScreen extends Component {
                 history.push('/board');
             })
             .catch((error) => {
-                if (error.message !== undefined) {
-                    this.setState({error: error.message});
-                } else if (error.status === 404) {
+                if (error.status === 404) {
                     this.setState({error: "Email not found in database, please register and try again."});
                 } else {
                     console.error(error);

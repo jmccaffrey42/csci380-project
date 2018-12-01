@@ -12,6 +12,9 @@ class AuthController extends Controller
             'email' => 'required'
         ]);
         $user = User::where(['email' => $request['email']])->first();
+        if ($user === null) {
+            abort(404);
+        }
         $user['token'] = $user->id;
         return $user;
     }
