@@ -275,9 +275,7 @@ html, body, #mainApp, #root {
     display: flex;
     align-items: center;
     flex-flow: row nowrap;
-}
-
-.boardInfo {
+    flex:1;
     list-style-type: none;
 }
 
@@ -290,6 +288,11 @@ html, body, #mainApp, #root {
 
 .boardInfo li:first-child{
     border: none;
+}
+
+.boardInfo li:last-child {
+    margin-left: auto;
+    border: none
 }
 
 .boardMembers .dot {
@@ -422,4 +425,8 @@ h1 .editable-text input {
     font-weight: inherit;
     color: inherit;
     box-sizing: border-box;
+}
+
+.createListForm {
+    position:absolute;
 }
