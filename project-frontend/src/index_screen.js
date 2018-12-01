@@ -26,7 +26,6 @@ const IndexScreen = () => (
         <section>
             <h2>Contact us for enterprise support</h2>
             <p>We're here to help you get tracking 24/7/365</p>
-            <p></p>
             <img src="/images/Lion-Tracking.jpg" width="900"/>
         </section>
 
