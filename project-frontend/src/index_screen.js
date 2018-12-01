@@ -20,17 +20,19 @@ const IndexScreen = () => (
         <section>
             <h2>Comment on cards to share your thoughts</h2>
             <p></p>
-            <img src="/images/ss_01.PNG" width="900"/>
+            <img src="/images/ss_02.png" width="700"/>
         </section>
 
         <section>
             <h2>Contact us for enterprise support</h2>
+            <p>We're here to help you get tracking 24/7/365</p>
             <p></p>
-            <img src="/images/ss_01.PNG" width="900"/>
+            <img src="/images/Lion-Tracking.jpg" width="900"/>
         </section>
 
         <footer>
-
+            LionTracks is a fictional product created for a final project in a course at <a href="http://www.tamuc.edu" target="_">Texas A&M University Commerce</a>.<br/>
+            Source code available on <a href="https://github.com/jmccaffrey42/csci380-project" target="_">GitHub</a>
         </footer>
 
     </div>
