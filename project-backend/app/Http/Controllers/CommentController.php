@@ -23,7 +23,9 @@ class CommentController extends SecureController
             return 404;
         }
 
-        return Comment::create($commentReq);
+        $newComment = Comment::create($commentReq);
+        $newComment['user'] = Auth::user();
+        return $newComment;
     }
 
     public function update(Request $request, $id) {

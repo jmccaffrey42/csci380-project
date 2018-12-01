@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class CardController extends SecureController
 {
     public function show($id) {
-        $card = Card::where(['id' => $id])->with('members')->with('user')->with('comments')->first();
+        $card = Card::where(['id' => $id])->with('members')->with('user')->with('comments')->with('comments.user')->first();
         if (empty($card)) {
             return 404;
         }

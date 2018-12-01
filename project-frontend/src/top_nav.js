@@ -16,7 +16,12 @@ class TopNav extends React.Component {
         }
 
         const [first_name, last_name] = authProvider.user.name.split(' ');
-        const initials = (first_name[0] + last_name[0]).toUpperCase();
+        let initials;
+        if (last_name !== undefined) {
+            initials = (first_name[0] + last_name[0]).toUpperCase();
+        } else {
+            initials = authProvider.user.name.substr(0, 2).toUpperCase();
+        }
 
         return (
             <React.Fragment>

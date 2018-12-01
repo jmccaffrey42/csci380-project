@@ -3,38 +3,10 @@ import {faEllipsisH, faPlus, faBars, faComments, faAddressCard} from "@fortaweso
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import EditableText from './editable_text';
 import ApiClient from './api_client';
+import authProvider from "./auth_provider";
+import history from "./history";
 
 
-class CardList extends Component {
-    onTitleChange(newTitle) {
-        ApiClient.put('/lists/' + this.props.cardList.id, {title: newTitle})
-            .catch((error) => {
-                console.log("error saving list", error);
-            });
-    }
-
-    render() {
-        const { cardList, onCardClick } = this.props;
-        const {id, title, cards} = cardList;
-
-        return (
-            <div className="cardListBox">
-                <header>
-                    <span className="cardListTitle"><EditableText value={title} multiline={false} onChange={this.onTitleChange.bind(this)} /></span>
-                    <button className="button buttonLight buttonIcon"><FontAwesomeIcon icon={faEllipsisH} /></button>
-                </header>
-
-                <ul>
-                    { cards.map((card) => ( <li onClick={() => onCardClick(card) } key={card.id}>{card.title}</li>)) }
-                </ul>
-
-                <footer>
-                    <button className="button buttonLight buttonFullWidth"><FontAwesomeIcon icon={faPlus}/> Add another card</button>
-                </footer>
-            </div>
-        )
-    }
-}
 
 export default class BoardScreen extends Component {
 
@@ -54,76 +26,22 @@ export default class BoardScreen extends Component {
         });
     }
 
-    onBgClick() {
-        this.setState({dialogCard: null});
-
-    }
-
-    onCardUpdate(field, newValue) {
-        let update = {};
-        update[field] = newValue;
-        ApiClient.put('/cards/' + this.state.dialogCard.id, update)
-            .then((updatedCard) => {
-
-                let newLists = this.state.cardLists.slice();
-                let cardList = newLists.find((l) => l.id === updatedCard.card_list_id);
-                const cardIdx = cardList.cards.findIndex((c) => c.id === updatedCard.id);
-                cardList.cards[cardIdx] = updatedCard;
-
-                this.setState({cardLists: newLists});
-            })
-            .catch((error) => {
-                console.log("error saving card", error);
-            });
-    }
-
-    renderCardDetail() {
-        const {dialogCard} = this.state;
-        if (dialogCard === null) {
-            return;
+    onCardChange(updatedCard) {
+        let newLists = this.state.cardLists.slice();
+        if (updatedCard !== undefined && updatedCard !== null) {
+            let cardList = newLists.find((l) => l.id === updatedCard.card_list_id);
+            const cardIdx = cardList.cards.findIndex((c) => c.id === updatedCard.id);
+            cardList.cards[cardIdx] = updatedCard;
+        } else {
+            let cardListIdx = newLists.findIndex((l) => l.id === this.state.dialogCard.card_list_id);
+            newLists[cardListIdx].cards = newLists[cardListIdx].cards.filter((c) => c.id !== this.state.dialogCard.id);
+            this.setState({dialogCard: null});
         }
-
-        return (
-            <div className="dialogContainer">
-                <div className="dialogBg" onClick={this.onBgClick.bind(this)}/>
-                <div className="dialog centered">
-                    <div className="dialogBody">
-                        <header>
-                            <h1><FontAwesomeIcon className="icon" icon={faAddressCard} /><EditableText value={dialogCard.title} multiline={false} onChange={(val) => this.onCardUpdate('title', val) } /></h1>
-                            in list <a href="">List Title</a>
-                        </header>
-                        <section>
-                            <h2><FontAwesomeIcon className="icon" icon={faBars}/> Description</h2>
-                            <EditableText value="This is a really nice card name" multiline={true} onChange={(val) => this.onCardUpdate('description', val) } />
-                        </section>
-                        <section>
-                            <h2><FontAwesomeIcon className="icon" icon={faComments} /> Comments</h2>
-                        </section>
-                    </div>
-                    <div className="dialogMenu">
-                        <h3>ACTIONS</h3>
-                        <ul>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                        </ul>
-
-                        <h3>MORE</h3>
-                        <ul>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                        </ul>
-
-                    </div>
-
-                </div>
-            </div>
-        )
+        this.setState({cardLists: newLists});
     }
 
     render() {
-        const {cardLists} = this.state;
+        const {cardLists, dialogCard} = this.state;
 
         return (
             <div className="boardScreen">
@@ -151,7 +69,7 @@ export default class BoardScreen extends Component {
                     { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) } />)) }
                 </section>
 
-                { this.renderCardDetail() }
+                { (dialogCard === null ? [] : <CardDetail card={dialogCard} onChange={ this.onCardChange.bind(this) } onClose={ (card) => this.setState({dialogCard: null}) } />) }
             </div>
         );
     }

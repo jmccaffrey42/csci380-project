@@ -32,7 +32,7 @@ class ApiClient {
                 if (!response.ok) {
                     response.json().then(reject).catch(() => { reject(response) });
                 } else {
-                    response.json().then((data) => { console.log("HERE", data); resolve(data); }).catch((error) => { console.error(error) });
+                    response.json().then((data) => { resolve(data) }).catch((error) => { console.error(error) });
                 }
             });
         });
