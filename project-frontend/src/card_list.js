@@ -1,12 +1,39 @@
-import ApiClient from "./api_client";
-import EditableText from "./editable_text";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsisH, faPlus} from "@fortawesome/free-solid-svg-icons";
 import React, {Component} from "react";
+import {DropTarget} from "react-dnd";
+import PropTypes from "prop-types";
 
-export default class CardList extends Component {
-    constructor(props, context) {
-        super(props, context);
+import ApiClient from "./api_client";
+import EditableText from "./editable_text";
+import CardItem from './card_item';
+
+
+const cardTarget = {
+    drop(props, monitor) {
+        // let item = monitor.getItem();
+        // item.dest_list_id = props.cardList.id;
+        // props.onDropItems(item);
+    }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver()
+    };
+}
+
+class CardList extends Component {
+    static propTypes = {
+        cardList: PropTypes.object,
+        onMoveCard: PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
+        connectDropTarget: PropTypes.func.isRequired,
+    };
+
+    constructor(props) {
+        super(props);
 
         this.state = {
             menuVisible: false,
@@ -86,10 +113,10 @@ export default class CardList extends Component {
 
     render() {
         const {menuVisible, createFormVisible} = this.state;
-        const { cardList, onCardClick } = this.props;
+        const { cardList, onCardClick, connectDropTarget, onMoveCard } = this.props;
         const {id, title, cards} = cardList;
 
-        return (
+        return connectDropTarget(
             <div className="cardListBox">
                 <header>
                     <span className="cardListTitle"><EditableText value={title} multiline={false} onChange={this.onTitleChange.bind(this)} /></span>
@@ -98,7 +125,7 @@ export default class CardList extends Component {
                 </header>
 
                 <ul>
-                    { cards.map((card) => ( <li onClick={() => onCardClick(card) } key={card.id}>{card.title}</li>)) }
+                    { cards.map((card) => ( <li key={card.id}><CardItem onClick={() => onCardClick(card) } onMoveCard={ onMoveCard } card={card} /></li>)) }
                     { this.renderCreateForm() }
                 </ul>
 
@@ -109,3 +136,6 @@ export default class CardList extends Component {
         )
     }
 }
+
+export default DropTarget('CARD', cardTarget, collect)(CardList);
+// export default CardList;

@@ -304,6 +304,7 @@ html, body, #mainApp, #root {
     padding: 10px;
     display: flex;
     flex-flow: row wrap;
+    align-items: flex-start;
 }
 
 .cardListBox {
@@ -319,23 +320,6 @@ html, body, #mainApp, #root {
     padding: 0 0.5em;
 }
 
-.cardListBox li {
-    background-color: white;
-    margin-bottom: 0.5em;
-    padding: 0.5em;
-    border-radius: 5px;
-    border-bottom: 1px solid #8f8f8f;
-    cursor: pointer;
-}
-
-.cardListBox li:last-child {
-    margin: 0;
-}
-
-.cardListBox li:hover {
-    background-color: #ececec;
-}
-
 .cardListBox .cardListTitle {
     font-weight: bold;
     position: relative;
@@ -343,6 +327,7 @@ html, body, #mainApp, #root {
     left: 10px;
     font-size: 14pt
 }
+
 .cardListBox header button {
     float: right;
 }
@@ -429,4 +414,33 @@ h1 .editable-text input {
 
 .createListForm {
     position:absolute;
+}
+
+.taskCard {
+    background-color: white;
+    padding: 0.5em;
+    border-radius: 5px;
+    border-bottom: 1px solid #8f8f8f;
+    cursor: pointer;
+
+}
+
+.taskCardContainer {
+    padding-bottom: 0.5em;
+}
+
+.dragCardPlaceholder {
+    padding: 0.5em;
+    border-radius: 5px;
+    height: 50px;
+    margin-bottom: 0.5em;
+    background-color: #cfd3d6;
+}
+
+.cardListBox li:last-child .taskCardContainer {
+    padding-bottom: 0;
+}
+
+.taskCard:hover {
+    background-color: #ececec;
 }

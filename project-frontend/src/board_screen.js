@@ -16,12 +16,19 @@ export default class BoardScreen extends Component {
             cardLists: [],
             loading: true,
             createListFormVisible: false
-        }
+        };
+
+        this.listIndex = new Map();
     }
 
     componentDidMount() {
         ApiClient.get('/lists').then((lists) => {
-            console.log(lists);
+            this.listIndex = new Map(lists.map((l, i) => [l.id, i]));
+
+            lists.forEach((l) => {
+                l.cards.sort((a, b) => a.sort_order - b.sort_order);
+            });
+
             this.setState({cardLists: lists, loading: false});
         });
     }
@@ -91,6 +98,49 @@ export default class BoardScreen extends Component {
         );
     }
 
+    onMoveCard(item, isAfter = false) {
+        const newCardLists = this.state.cardLists.slice();
+        const srcList = newCardLists[this.listIndex.get(item.src_list_id)];
+        const dstList = newCardLists[this.listIndex.get(item.dst_list_id)];
+        const srcCardIdx = srcList.cards.findIndex((c) => c.id === item.src_card_id);
+        const srcCard = srcList.cards[srcCardIdx];
+        let dstCardIdx = dstList.cards.findIndex((c) => c.id === item.dst_card_id);
+
+        srcCard.card_list_id = dstList.id;
+
+        const dstCard = dstList.cards[dstCardIdx];
+        const prevCard = dstList.cards[dstCardIdx - 1];
+
+        let prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
+        let nextSortOrder = dstCard.sort_order;
+
+        if (prevSortOrder === nextSortOrder) {
+            dstList.cards.forEach((c, i) => {
+                c.sort_order = 1000 * (i + 1);
+                ApiClient.put('/cards/' + c.id, {
+                    sort_order: c.sort_order
+                })
+            });
+            prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
+            nextSortOrder = dstCard.sort_order;
+        }
+
+        srcCard.sort_order = prevSortOrder + Math.ceil((nextSortOrder - prevSortOrder) / 2);
+
+        srcList.cards.splice(srcCardIdx, 1);
+        if (dstList === srcList && srcCardIdx < dstCardIdx) {
+            dstCardIdx--;
+        }
+        dstList.cards.splice(dstCardIdx, 0, srcCard);
+
+        ApiClient.put('/cards/' + srcCard.id, {
+            sort_order: srcCard.sort_order,
+            card_list_id: dstList.id
+        });
+
+        this.setState({cardLists: newCardLists});
+    }
+
     render() {
         const {cardLists, dialogCard} = this.state;
 
@@ -113,7 +163,9 @@ export default class BoardScreen extends Component {
                 </header>
 
                 <section className="mainBoard">
-                    { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) } onChange={(update) => this.onListChange(list.id, update)} />)) }
+                    { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) }
+                                                         onMoveCard={this.onMoveCard.bind(this)}
+                                                         onChange={(update) => this.onListChange(list.id, update)} />)) }
                 </section>
 
                 { (dialogCard === null ? [] : <CardDetail card={dialogCard} onChange={ this.onCardChange.bind(this) } onClose={ (card) => this.setState({dialogCard: null}) } />) }

@@ -1,5 +1,7 @@
 import React from 'react';
 import {Router, Route, Redirect} from "react-router-dom";
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContextProvider } from "react-dnd";
 
 import './App.css';
 import history from './history';
@@ -23,6 +25,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 const App = () => (
+    <DragDropContextProvider backend={HTML5Backend}>
+
     <Router history={history}>
         <div id="mainApp">
             <TopNav />
@@ -33,6 +37,7 @@ const App = () => (
             <PrivateRoute path="/board/" component={BoardScreen} />
         </div>
     </Router>
+    </DragDropContextProvider>
 );
 
 export default App;

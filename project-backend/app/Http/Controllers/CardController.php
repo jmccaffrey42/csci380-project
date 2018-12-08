@@ -38,7 +38,7 @@ class CardController extends SecureController
 
     public function update(Request $request, $id) {
         $card = Card::findOrFail($id);
-        $card->update($request->only(['title', 'description', 'sort_order', 'labels']));
+        $card->update($request->only(['title', 'description', 'sort_order', 'labels', 'card_list_id']));
         return $card;
     }
 
