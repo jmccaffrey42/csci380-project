@@ -114,7 +114,7 @@ export default class BoardScreen extends Component {
         let prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
         let nextSortOrder = dstCard.sort_order;
 
-        if (prevSortOrder === nextSortOrder) {
+        if (nextSortOrder - prevSortOrder < 10) {
             dstList.cards.forEach((c, i) => {
                 c.sort_order = 1000 * (i + 1);
                 ApiClient.put('/cards/' + c.id, {

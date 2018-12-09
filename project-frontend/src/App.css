@@ -248,7 +248,7 @@ html, body, #mainApp, #root {
 .boardScreen {
     position: relative;
     min-height: 100%;
-    background: bottom center url("/images/open_field.jpg");
+    background: bottom center url("/images/open_field_optimized.jpg");
     background-size: cover;
     background-attachment: fixed;
 }
