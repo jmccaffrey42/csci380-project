@@ -37,7 +37,7 @@ const IndexScreen = () => (
 
         <section className="feature left">
             <figure>
-                <img src="/images/Lion-Tracking.jpg" width="900"/>
+                <img src="/images/Lion-Tracking.jpg" width="700"/>
             </figure>
             <header>
                 <h2><FontAwesomeIcon icon={faPhone} className="icon" />Contact us for enterprise support</h2>

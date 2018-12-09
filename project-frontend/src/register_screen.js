@@ -4,6 +4,8 @@ import React, { Component } from "react";
 
 import ApiClient from './api_client';
 import authProvider from "./auth_provider";
+import {faAddressCard} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default class RegisterScreen extends Component {
 
@@ -58,31 +60,31 @@ export default class RegisterScreen extends Component {
         return (
             <div className="registerScreen" ref={this.myRef}>
                 <div className="dialog dialogSmall dialogCentered">
-                    <header>
-                        <h1>Register</h1>
-                    </header>
-                    <form onSubmit={this.handleSubmit.bind(this)}>
+                    <div className="dialogBody">
+                        <header>
+                            <h1><FontAwesomeIcon className="icon" icon={faAddressCard} />Register</h1>
+                        </header>
+                        <form onSubmit={this.handleSubmit.bind(this)}>
+                            {this.renderError()}
 
-                        {this.renderError()}
-
-                        <div className="inputGroup">
-                            <div className="formInput">
-                                <label>Email Address</label>
-                                <input type="text" name="email" placeholder="jsmith@email.com"/>
+                            <div className="inputGroup">
+                                <div className="formInput">
+                                    <label>Email Address</label>
+                                    <input type="text" name="email" placeholder="jsmith@email.com"/>
+                                </div>
+                                <div className="formInput">
+                                    <label>First and Last Name</label>
+                                    <input type="text" placeholder="John Smith" name="name" />
+                                </div>
                             </div>
-                            <div className="formInput">
-                                <label>First and Last Name</label>
-                                <input type="text" placeholder="John Smith" name="name" />
-                            </div>
-                        </div>
 
-                        <footer>
-                            <div className="formButtons">
-                                <button type="submit" className="button buttonFullWidth buttonGreen">Register</button>
-                            </div>
-                        </footer>
-                    </form>
-
+                            <footer>
+                                <div className="formButtons">
+                                    <button type="submit" className="button buttonFullWidth buttonGreen">Register</button>
+                                </div>
+                            </footer>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

@@ -4,6 +4,8 @@ import React, { Component } from "react";
 
 import ApiClient from './api_client';
 import authProvider from "./auth_provider";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLockOpen} from "@fortawesome/free-solid-svg-icons";
 
 export default class LoginScreen extends Component {
 
@@ -50,8 +52,10 @@ export default class LoginScreen extends Component {
         return (
             <div className="loginScreen" ref={this.myRef}>
                 <div className="dialog dialogSmall dialogCentered">
+                    <div className="dialogBody">
+
                     <header>
-                        <h1>Login</h1>
+                        <h1><FontAwesomeIcon className="icon" icon={faLockOpen} />Login</h1>
                         or <Link to="/register">create an account</Link>
                     </header>
                     <form onSubmit={this.handleSubmit.bind(this)}>
@@ -75,7 +79,7 @@ export default class LoginScreen extends Component {
                             </div>
                         </footer>
                     </form>
-
+                    </div>
                 </div>
             </div>
         );

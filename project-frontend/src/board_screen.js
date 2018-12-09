@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEllipsisH, faPlus} from "@fortawesome/free-solid-svg-icons";
+import classSet from 'react-classset';
 
 import ApiClient from './api_client';
 import CardList from './card_list';
@@ -162,7 +163,7 @@ export default class BoardScreen extends Component {
         const {cardLists, dialogCard} = this.state;
 
         return (
-            <div className="boardScreen">
+            <div className={classSet({boardScreen: true, noscroll: dialogCard !== null})}>
                 <header className="boardHeader">
                     <span className="boardTitle">Task Board</span>
                     <ul className="boardInfo">
