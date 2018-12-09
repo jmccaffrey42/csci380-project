@@ -455,3 +455,91 @@ h1 .editable-text input {
     border: none;
     background: none;
 }
+
+.jumbotron {
+    height: 450px;
+    background: bottom left url(/images/lion_sitting.jpg);
+    padding-top: 100px;
+}
+
+.jumbotron h1 {
+    color: #ececec;
+    font-size: 100px;
+    margin: 0;
+    text-align: center;
+    text-shadow: 3px 3px rgba(131, 131, 131, 0.49);
+
+}
+.jumbotron h2 {
+    color: #c0c0c0;
+    text-align: center;
+    margin: 0 0 100px;
+}
+
+.jumbotron .links {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.jumbotron .links li {
+    margin-right: 0.5em;
+}
+
+.jumbotron .links li:last-child {
+    margin-right: 0;
+}
+
+.jumbotron .button {
+    font-size: 20px;
+    height: 50px;
+    width: 200px;
+}
+
+.indexScreen > footer {
+    color: white;
+    background: #4b4b4b;
+    padding: 0.5em;
+    text-align: center;
+}
+
+.indexScreen > footer a {
+    color: inherit
+}
+
+.indexScreen section.feature {
+    padding: 100px 0;
+    display: flex;
+    flex-flow: nowrap row;
+}
+
+.indexScreen section.feature figure {
+    margin: 0;
+}
+
+.indexScreen section.feature.left {
+    padding-right: 50px;
+    justify-items: flex-start;
+}
+
+.indexScreen section.feature.left figure {
+    margin-right: 20px;
+}
+
+.indexScreen section.feature.right {
+    background-color: #ededed;
+    padding-left: 50px;
+    justify-items: flex-end;
+}
+
+.indexScreen section.feature.right figure {
+    margin-left: 20px;
+}
+
+.indexScreen h2 .icon {
+    margin-right: 0.5em;
+    font-size: 40px;
+    color: #061f5c;
+}

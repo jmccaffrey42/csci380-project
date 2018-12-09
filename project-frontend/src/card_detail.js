@@ -116,19 +116,8 @@ export default class CardDetail extends Component {
                         <h3>ACTIONS</h3>
                         <ul>
                             <li><button className="button buttonGray buttonFullWidth" onClick={this.onDeleteClick.bind(this)}>Delete Task</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
                         </ul>
-
-                        <h3>MORE</h3>
-                        <ul>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                            <li><button className="button buttonGray buttonFullWidth">Test</button></li>
-                        </ul>
-
                     </div>
-
                 </div>
             </div>
         )
