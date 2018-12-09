@@ -1,5 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEllipsisH, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisH, faPlus, faWindowClose} from "@fortawesome/free-solid-svg-icons";
 import React, {Component} from "react";
 import {DropTarget} from "react-dnd";
 import PropTypes from "prop-types";
@@ -11,9 +11,13 @@ import CardItem from './card_item';
 
 const cardTarget = {
     drop(props, monitor) {
-        // let item = monitor.getItem();
-        // item.dest_list_id = props.cardList.id;
-        // props.onDropItems(item);
+        let item = monitor.getItem();
+        item.dst_list_id = props.cardList.id;
+        item.dst_card_id = null;
+        props.onMoveCard(item);
+    },
+    canDrop(props, monitor) {
+        return props.cardList.cards.length === 0;
     }
 };
 
@@ -38,7 +42,7 @@ class CardList extends Component {
         this.state = {
             menuVisible: false,
             createFormVisible: false
-        }
+        };
     }
 
     onDeleteClick() {
@@ -102,10 +106,13 @@ class CardList extends Component {
             return [];
         }
 
+        let x = 1;
         return (
             <li>
                 <form onSubmit={this.onCreateSubmit.bind(this)}>
-                    <input type="text" name="title" placeholder="Task name"/>
+                    <div className="taskCard createTaskCard">
+                    <input type="text" name="title" placeholder="Task name" autoFocus onBlur={() => this.setState({createFormVisible: false}) } />
+                    </div>
                 </form>
             </li>
         )

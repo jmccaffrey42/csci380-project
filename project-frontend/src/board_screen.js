@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faEllipsisH, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 import ApiClient from './api_client';
 import CardList from './card_list';
 import CardDetail from './card_detail';
+import EditableText from "./editable_text";
 
 
 export default class BoardScreen extends Component {
@@ -23,6 +24,7 @@ export default class BoardScreen extends Component {
 
     componentDidMount() {
         ApiClient.get('/lists').then((lists) => {
+            lists.sort((a, b) => a.x - b.x);
             this.listIndex = new Map(lists.map((l, i) => [l.id, i]));
 
             lists.forEach((l) => {
@@ -63,7 +65,7 @@ export default class BoardScreen extends Component {
 
         const postObject = {
             title: e.target.title.value,
-            x: 0, y: 0
+            x: (this.state.cardLists.length + 1) * 1000, y: 0
         };
 
         ApiClient.post('/lists', postObject)
@@ -71,6 +73,7 @@ export default class BoardScreen extends Component {
                 const newLists = this.state.cardLists.slice();
                 list.cards = [];
                 newLists.push(list);
+                this.listIndex = new Map(newLists.map((l, i) => [l.id, i]));
                 this.setState({createListFormVisible:false, cardLists: newLists});
             })
             .catch((error) => {
@@ -89,48 +92,62 @@ export default class BoardScreen extends Component {
         }
 
         return (
-            <div className="createListForm" >
+            <div className="cardListBox createListForm">
                 <form onSubmit={this.onCreateListSubmit.bind(this)}>
-                    <input name="title" placeholder="List title" />
-                    <button type="submit">Save</button>
+                    <header>
+                        <span className="cardListTitle">
+                            <input name="title" placeholder="List title" autoFocus onBlur={() => this.setState({createListFormVisible: false})}/>
+                        </span>
+                    </header>
+                    <ul></ul>
+                    <footer>
+                        <button className="button buttonLight buttonFullWidth" type="submit">Save</button>
+                    </footer>
                 </form>
             </div>
         );
     }
 
-    onMoveCard(item, isAfter = false) {
+    onMoveCard(item) {
         const newCardLists = this.state.cardLists.slice();
         const srcList = newCardLists[this.listIndex.get(item.src_list_id)];
         const dstList = newCardLists[this.listIndex.get(item.dst_list_id)];
         const srcCardIdx = srcList.cards.findIndex((c) => c.id === item.src_card_id);
         const srcCard = srcList.cards[srcCardIdx];
-        let dstCardIdx = dstList.cards.findIndex((c) => c.id === item.dst_card_id);
 
         srcCard.card_list_id = dstList.id;
 
-        const dstCard = dstList.cards[dstCardIdx];
-        const prevCard = dstList.cards[dstCardIdx - 1];
+        let dstCardIdx;
+        if (item.dst_card_id === null) {
+            dstCardIdx = 0;
+            srcCard.sort_order = 0;
+        } else {
+            dstCardIdx = dstList.cards.findIndex((c) => c.id === item.dst_card_id);
+            const dstCard = dstList.cards[dstCardIdx];
+            const prevCard = dstList.cards[dstCardIdx - 1];
 
-        let prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
-        let nextSortOrder = dstCard.sort_order;
+            let prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
+            let nextSortOrder = dstCard.sort_order;
 
-        if (nextSortOrder - prevSortOrder < 10) {
-            dstList.cards.forEach((c, i) => {
-                c.sort_order = 1000 * (i + 1);
-                ApiClient.put('/cards/' + c.id, {
-                    sort_order: c.sort_order
-                })
-            });
-            prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
-            nextSortOrder = dstCard.sort_order;
+            if (nextSortOrder - prevSortOrder < 10) {
+                dstList.cards.forEach((c, i) => {
+                    c.sort_order = 1000 * (i + 1);
+                    ApiClient.put('/cards/' + c.id, {
+                        sort_order: c.sort_order
+                    })
+                });
+                prevSortOrder = prevCard !== undefined ? prevCard.sort_order : 0;
+                nextSortOrder = dstCard.sort_order;
+            }
+
+            srcCard.sort_order = prevSortOrder + Math.ceil((nextSortOrder - prevSortOrder) / 2);
+
+            if (dstList === srcList && srcCardIdx < dstCardIdx) {
+                dstCardIdx--;
+            }
         }
-
-        srcCard.sort_order = prevSortOrder + Math.ceil((nextSortOrder - prevSortOrder) / 2);
 
         srcList.cards.splice(srcCardIdx, 1);
-        if (dstList === srcList && srcCardIdx < dstCardIdx) {
-            dstCardIdx--;
-        }
         dstList.cards.splice(dstCardIdx, 0, srcCard);
 
         ApiClient.put('/cards/' + srcCard.id, {
@@ -157,7 +174,6 @@ export default class BoardScreen extends Component {
                         </li>
                         <li>
                             <button className="button buttonLight" onClick={() => this.setState({createListFormVisible:true})}><FontAwesomeIcon icon={faPlus}/> Add Task List</button>
-                            { this.renderCreateList() }
                         </li>
                     </ul>
                 </header>
@@ -166,6 +182,8 @@ export default class BoardScreen extends Component {
                     { cardLists.map((list) => (<CardList key={list.id} cardList={list} onCardClick={ (card) => this.setState({dialogCard: card}) }
                                                          onMoveCard={this.onMoveCard.bind(this)}
                                                          onChange={(update) => this.onListChange(list.id, update)} />)) }
+                    { this.renderCreateList() }
+
                 </section>
 
                 { (dialogCard === null ? [] : <CardDetail card={dialogCard} onChange={ this.onCardChange.bind(this) } onClose={ (card) => this.setState({dialogCard: null}) } />) }
