@@ -8,6 +8,7 @@ import CardList from './card_list';
 import CardDetail from './card_detail';
 import EditableText from "./editable_text";
 
+import Map from 'es6-map';
 
 export default class BoardScreen extends Component {
 
@@ -113,6 +114,9 @@ export default class BoardScreen extends Component {
         const newCardLists = this.state.cardLists.slice();
         const srcList = newCardLists[this.listIndex.get(item.src_list_id)];
         const dstList = newCardLists[this.listIndex.get(item.dst_list_id)];
+        console.log(item, srcList, this.listIndex);
+
+
         const srcCardIdx = srcList.cards.findIndex((c) => c.id === item.src_card_id);
         const srcCard = srcList.cards[srcCardIdx];
 

@@ -1,4 +1,6 @@
 import authProvider from './auth_provider';
+import 'promise-polyfill/src/polyfill';
+import 'whatwg-fetch';
 
 class ApiClient {
     baseUrl = '/api';

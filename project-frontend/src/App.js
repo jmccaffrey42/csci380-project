@@ -14,6 +14,8 @@ import LoginScreen from './login_screen';
 import RegisterScreen from './register_screen';
 import TopNav from './top_nav';
 
+import './polyfill';
+import "jspolyfill-array.prototype.findIndex";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route {...rest} render={(props) => (
